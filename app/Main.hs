@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import S101
 
 main :: IO ()
 main = print =<< uselessNumbers
