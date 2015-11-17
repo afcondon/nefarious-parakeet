@@ -1,5 +1,6 @@
 flags: {}
 packages:
 - '.'
-extra-deps: []
+extra-deps:
+- servant-mock-0.4.4.5
 resolver: lts-3.11

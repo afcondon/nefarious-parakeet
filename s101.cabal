@@ -15,7 +15,7 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib, S101
+  exposed-modules:     S101
   build-depends:       base >= 4.7 && < 5
                      , aeson >= 0.8
                      , bytestring
@@ -28,6 +28,7 @@ library
                      , servant-docs
                      , servant-server
                      , servant-client
+                     , servant-mock
                      , text
                      , time
                      , transformers
@@ -36,14 +37,28 @@ library
                      , wai
                      , warp
                      , either
+                     , QuickCheck
  default-language:    Haskell2010
 
-executable s101-exe
+
+
+executable s101-client
   hs-source-dirs:      app
-  main-is:             Main.hs
+  main-is:             S101Client.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , s101
+  default-language:    Haskell2010
+
+executable s101-server-mock
+  hs-source-dirs:      app
+  main-is:             S101Mock.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , s101
+                     , servant-mock
+                     , servant-server
+                     , warp
   default-language:    Haskell2010
 
 test-suite s101-test

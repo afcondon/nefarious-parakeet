@@ -1,0 +1,194 @@
+Structure101 ControllerHandler API
+
+/actions
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_Actions.
+
+If a shared actions model is in memory this will return the JSON of that model.
+
+/build
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_Build.
+
+Used when you want to build a live model in the server.
+
+Params:
+
+?hspFile= hsp project file (please use JettyBridge/Client to help create this temp file).
+&synchronous= true if a short build expected and client will wait, otherwise spawn a thread.
+&calculateIssues= true if you want to return JSON of tangles, fat, violations, etc.
+&parsingType= can be full, clean, incremental. See code for usage.
+See also: /collectBuild
+/collectBuild
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_CollectBuild.
+
+During an async build, poll the server until the return JSON BuildResult.isComplete() is true. Then stop!
+
+Params:
+
+?bid= ID of the build to retrieve (returned by initiating build request).
+/repository
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_Repository.
+
+Under construction!
+
+/publish
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_Publish.
+
+Given a live model, this will publish it to a given repo.
+
+Params:
+
+?repository= repository to publish to.
+&depot= project to publish to.
+&snapshot= snapshot label to use.
+/loadSnapshot
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_loadSnapshot.
+
+Given a live model, this will publish it to a given repo.
+
+Params:
+
+?repository= repository to publish to.
+&depot= project to publish to.
+&snapshot= snapshot label to use.
+/lsm
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_Lsm.
+
+This is used when you want to manipulate the view model in the server.
+
+This generally expects an action parameter like "/lsm?action=expand&id=999" to carry out.
+
+Available actions:
+
+?view=create: create a new view model (note: vid of 0 always exists and cannot be destroyed).
+&did=999: if new view is to be based on a diagram specify its did.
+?view=destroy: destroy given view model.
+?view=list: return a list of current view ids (vids).
+?vid=999: the id of view to destroy, to apply actions to, to return the JSON of.
+?action=default: just returns the current JSON.
+?action=expand: given an id parameter expand this in the LSM. Returns all edges, and only the JSON added.
+&id=999 => ID to manipulate
+?action=collapse: given an id parameter collapse this in the LSM. Returns all edges only.
+&id=999 => ID to manipulate
+&id=model => then whole model will be collapsed
+?action=isolate-by-id: given an id parameter isolate this in the LSM.
+&id=999 => ID to manipulate
+&expandTarget=? => See true or false
+&expandPartitions=? => See true or false
+?action=isolate-by-fqname: given a fqname, isolate this in the LSM.
+&fqname=x.y.z.java => FQName to manipulate
+&expandTarget=? => See true or false
+&expandPartitions=? => See true or false
+?action=grouping: turn on and off groups and orphans in the LSM.
+&value=on => show groups
+&value=off => do not show groups (default)
+&expandPartitions=? => See true or false
+?action=partition: change the partitioning used in the LSM. Requires a value parameter.
+&value=0 => show no partitions (default) OR
+&value=1 => tangles and clusters OR
+&value=2 => tangles only OR
+&value=3 => clusters only OR
+&value=4 => tagged items OR
+&value=5 => tagged items and enclosed
+&expandPartitions=? => See true or false
+?action=slice: change the slicing used in the LSM. Requires a value parameter.
+&value=0 => as-is standard hierarchy (default) OR
+&value=1 => leaf-container (e.g. package) slice OR
+&value=2 => outer-entity (e.g. class) slice OR
+&value=3 => member (e.g. method and field) slice (USE WITH CAUTION DUE TO SIZE)
+&partition=? => See Partition Values
+&grouping=? => See Grouping Values
+&id=999 => ID to find AND
+&id=998 => ID to find AND
+&id=997 => ID to find AND
+&...... => ID to find
+&expandPartitions=? => See true or false
+?action=find-by-id: given an id parameter expand the LSM to reveal the desired node.
+&id=999 => ID to find AND
+&id=998 => ID to find AND
+&id=997 => ID to find AND
+&...... => ID to find
+&expandTarget=? => See true or false
+&expandPartitions=? => See true or false
+?action=find-by-fqname: given a FQName parameter, make it the focus of the LSM.
+&fqname=proj.com.x.a.z.method(parms):returnType => FqName to find.
+example: JUnit.junit.runner.ClassPathTestCollector.isTestClass(JUnit.java.lang.String):boolean
+&expandTarget=? => See true or false
+&expandPartitions=? => See true or false
+?action=spotlight-by-id: given an id parameter reset and expand the LSM to focus the desired nodes.
+&id=999 => ID to find AND
+&id=998 => ID to find AND
+&id=997 => ID to find AND
+&...... => ID to find
+&expandTarget=? => true or false
+&expandPartitions=? => true or false
+&expandDepends=? => default true
+?action=spotlight-by-fqname: given a FQName parameter, reset and make it the focus of the LSM.
+&fqname=proj.com.x.a.z.method(parms):returnType => FqName to find.
+example: JUnit.junit.runner.ClassPathTestCollector.isTestClass(JUnit.java.lang.String):boolean
+&expandTarget=? => true or false
+&expandPartitions=? => true or false
+&expandDepends=? => default true
+?action=spotlight-by-relationship: given a pair of ids reset and expand the LSM to focus the desired elemental nodes.
+&id=999 => from ID of relationship AND
+&id=999 => to ID of relationship
+&side=? => 'from' or 'to' or 'both' indicates which sides to focus on
+&expandTarget=? => true or false
+&expandPartitions=? => true or false
+&expandDepends=? => default true
+Note: You can append a &file=local-filename.json to any /lsm URL to dump that JSON to file.
+
+Note: You can also just use /lsm to return the JSON of the current state of the view model.
+
+Note: You can also just use /lsm-image to return a PNG of the current state of the view model.
+
+/rules
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_Rules.
+
+If a layering model is in memory this will return the JSON, or PNG of a given diagram id.
+
+Params:
+
+?did= the id of the diagram.
+Note: If /rules this will return the JSON of the layering model.
+
+Note: If /rules-violations this will return the JSON of all violations.
+
+Note: If /rules-image this will return the PNG of the layering model (requires name param).
+
+/tree
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_Tree.
+
+A mechanism to drill into and query the HiView directly.
+
+Params:
+
+?id= the ID of the node to interrogate.
+&depth= how many levels to return (drill into).
+&detailed= include sub-entity nodes?
+&layered= introduce a layering level in the JSON?
+/force
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_Collaboration.
+
+Given a live model is loaded this will return a JSON model of the collaboration slice, partitioned. Beware this can be EXPENSIVE!
+
+/getVersion
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_getVersion.
+
+This request returns the Structure101 Server version.
+
+/stopServer
+
+This target is handled by class com.headway.assemblies.server.controller.ControllerHandler_stopServer.
+
+This will stop the S101 server.

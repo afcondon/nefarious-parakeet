@@ -13,6 +13,7 @@ import Control.Applicative
 import Control.Monad
 import Control.Monad.IO.Class
 import Control.Monad.Trans.Either
+import
 import Data.Aeson
 import Data.Monoid
 import Data.Proxy
@@ -20,6 +21,9 @@ import Data.Text (Text)
 import GHC.Generics
 import Servant.API
 import Servant.Client
+import Servant.Server
+import Servant.Mock
+import Test.QuickCheck.Arbitrary
 
 import qualified Data.Text    as T
 import qualified Data.Text.IO as T

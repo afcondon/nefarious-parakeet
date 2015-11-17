@@ -2,11 +2,12 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# OPTIONS_GHC -fno-warn-unused-binds #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 
 module S101
-    ( uselessNumbers
+    ( uselessNumbers, api
     ) where
 
 import Control.Applicative
@@ -20,6 +21,10 @@ import Data.Text (Text)
 import GHC.Generics
 import Servant.API
 import Servant.Client
+import Network.Wai.Handler.Warp
+import Servant
+import Servant.Mock
+import Test.QuickCheck.Arbitrary
 
 import qualified Data.Text    as T
 import qualified Data.Text.IO as T
@@ -46,3 +51,16 @@ uselessNumbers :: IO (Either ServantError ())
 uselessNumbers = runEitherT $ do
   version <- getVersion
   liftIO . putStrLn $ "Version data from server: " ++ show version
+
+
+-- | this stuff is for the mock servant-server
+
+newtype User = User { username :: String }
+  deriving (Eq, Show, Arbitrary, Generic)
+
+instance ToJSON User
+
+type API = "user" :> Get '[JSON] User
+
+api :: Proxy API
+api = Proxy
