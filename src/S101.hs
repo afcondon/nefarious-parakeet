@@ -7,7 +7,7 @@
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 
 module S101
-    ( uselessNumbers, api
+    ( results, api, myversion, S101api
     ) where
 
 import Control.Applicative
@@ -41,14 +41,14 @@ instance FromJSON VersionData where
     VersionData <$> o .: "version"
                 <*> o .: "language"
 
-s101API :: Proxy S101API
-s101API = Proxy
+s101api :: Proxy S101API
+s101api = Proxy
 
 getVersion :: EitherT ServantError IO VersionData
-getVersion = client s101API $ BaseUrl Http "24.226.52.201" 57777
+getVersion = client s101api $ BaseUrl Http "24.226.52.201" 57777
 
-uselessNumbers :: IO (Either ServantError ())
-uselessNumbers = runEitherT $ do
+results :: IO (Either ServantError ())
+results = runEitherT $ do
   version <- getVersion
   liftIO . putStrLn $ "Version data from server: " ++ show version
 
@@ -64,3 +64,8 @@ type API = "user" :> Get '[JSON] User
 
 api :: Proxy API
 api = Proxy
+
+-- | and this bit is for the servant-server executable
+
+myversion :: VersionData
+myversion = VersionData { version = "0.0.0", language = "Haskell" }
