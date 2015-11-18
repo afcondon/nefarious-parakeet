@@ -7,21 +7,14 @@ import           GHC.Generics
 import           Network.Wai.Handler.Warp
 import           Servant
 import           Servant.Mock
-import           Test.QuickCheck.Arbitrary
+import Test.QuickCheck.Arbitrary
 
 import Servant.S101
 
 -- | this stuff is for the mock servant-server
 
-newtype User = User { username :: String }
-  deriving (Eq, Show, Arbitrary, Generic)
-
-instance ToJSON User
-
-type API = "user" :> Get '[JSON] User
-
-api :: Proxy API
-api = Proxy
+instance ToJSON VersionData
+instance Arbitrary VersionData
 
 main :: IO ()
-main = run 8080 (serve api $ mock api)
+main = run 8080 (serve s101api $ mock s101api)
