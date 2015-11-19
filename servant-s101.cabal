@@ -48,6 +48,7 @@ executable s101-client
                      , text
                      , transformers
                      , either
+                     , optparse-applicative
                      , servant
                      , servant-server
                      , servant-client

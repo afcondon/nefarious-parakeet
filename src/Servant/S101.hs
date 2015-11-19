@@ -25,7 +25,7 @@ type S101API =
        "controller" :> "getVersion" :> Get '[JSON] VersionData
 
 data VersionData =
-  VersionData { version :: Text, language :: Text } deriving (Eq, Show, Generic)
+  VersionData { version :: [Char], language :: [Char] } deriving (Eq, Show, Generic)
 -- {"version":"4.0.5159","language":"javax"}
 
 instance FromJSON VersionData where
