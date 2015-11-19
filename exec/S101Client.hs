@@ -38,11 +38,13 @@ clientdetails :: Parser ClientDetails
 clientdetails = ClientDetails
      <$> strOption
          ( long "host"
+        <> value "localhost"
         <> short 'h'
         <> metavar "HOST"
         <> help "Hostname to contact" )
      <*> option auto
          ( long "port"
+        <> value 8001
         <> short 'p'
         <> metavar "PORT"
         <> help "Port number (defaults to 8000)" )
@@ -58,9 +60,3 @@ greet (ClientDetails h p) = putStrLn $ "Hello, " ++ h
 
 main :: IO ()
 main = execParser opts >>= results >>= print
-
-
-{-
-main :: IO ()
-main = print =<< results
--}
