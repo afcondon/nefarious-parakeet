@@ -20,7 +20,7 @@ getVersion = client s101api $ BaseUrl Http "24.226.52.201" 57777
 -}
 
 getVersion :: ClientDetails -> EitherT ServantError IO VersionData
-getVersion (ClientDetails host port) = client s101api $ BaseUrl Http host port
+getVersion (ClientDetails host port) = client gvproxy $ BaseUrl Http host port
 
 results :: ClientDetails -> IO (Either ServantError ())
 results c = runEitherT $ do

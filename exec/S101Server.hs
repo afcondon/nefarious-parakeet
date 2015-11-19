@@ -33,6 +33,9 @@ instance ToJSON VersionData
 myversion :: VersionData
 myversion = VersionData { version = "0.0.0", language = "Haskell" }
 
+mystop :: ()
+mystop = undefined
+
 ------
 
 -- Server-side handlers.
@@ -42,7 +45,9 @@ myversion = VersionData { version = "0.0.0", language = "Haskell" }
 --
 -- Each handler runs in the 'ExceptT ServantErr IO' monad.
 server :: Server S101API
+--server :: Server GetVersion
 server = return myversion
+    :<|> return mystop
 
 -- Turn the server into a WAI app. 'serve' is provided by servant,
 -- more precisely by the Servant.Server module.
